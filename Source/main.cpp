@@ -9,17 +9,8 @@
 
 #include "main.h"
 
-MainProcess MainProcess::mainProcess;
-
 int main(int argc, char* argv[])
 {
-	return MainProcess::mainProcess.main(argc, argv);
-}
-
-// MainProcesss
-
-int MainProcess::main(int argc, char* argv[])
-{
-	
 	return 0;
 }
+

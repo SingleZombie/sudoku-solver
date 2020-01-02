@@ -15,14 +15,14 @@ namespace Sudo
 {
 	SudoMatrix::SudoMatrix()
 	{
-		std::memset(data, 0, sizeof(data));
+		std::memset(_data, 0, sizeof(_data));
 	}
 
 	SudoMatrix::SudoMatrix(char* sudoTexts)
 	{
 		for (int i = 0, index = 0; index < SUDO_ELEMENTS_CNT; index++, i += 2)
 		{
-			data[index] = sudoTexts[i];
+			_data[index] = sudoTexts[i];
 		}
 	}
 
@@ -30,7 +30,7 @@ namespace Sudo
 	{
 		for (int i = 0; i < SUDO_ELEMENTS_CNT; i++)
 		{
-			data[i] = sudoArrays[i];
+			_data[i] = sudoArrays[i];
 		}
 	}
 

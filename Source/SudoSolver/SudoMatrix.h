@@ -13,6 +13,8 @@
 #ifndef SUDO_MATRIX_H
 #define SUDO_MATRIX_H
 
+#include <cassert>
+
 namespace Sudo
 {
 	class SudoMatrix
@@ -35,32 +37,42 @@ namespace Sudo
 
 		char getNum(int i, int j) const
 		{
-			return data[getIndex(i, j)];
+			return _data[getIndex(i, j)];
 		}
 
 		void setNum(int i, int j, char num)
 		{
-			data[getIndex(i, j)] = num;
+			_data[getIndex(i, j)] = num;
 		}
 
 		char getNumPalace(int i, int j) const
 		{
-			return data[getIndex((i / 3) * 3 + (j / 3) , (i % 3) * 3 + (j % 3))];
+			return _data[getIndex((i / 3) * 3 + (j / 3) , (i % 3) * 3 + (j % 3))];
 		}
 
 		void setNumPalace(int i, int j, char num)
 		{
-			data[getIndex((i / 3) * 3 + (j / 3), (i % 3) * 3 + (j % 3))] = num;
+			_data[getIndex((i / 3) * 3 + (j / 3), (i % 3) * 3 + (j % 3))] = num;
+		}
+
+		static int getPalaceId(int i, int j)
+		{
+			return i / 3 * 3 + j / 3;
+		}
+
+		static int getIdInPalace(int i, int j)
+		{
+			return i % 3 * 3 + j % 3;
 		}
 
 		char operator()(int i, int j) const
 		{
-			return data[getIndex(i, j)];
+			return _data[getIndex(i, j)];
 		}
 
 		char& operator()(int i, int j)
 		{
-			return data[getIndex(i, j)];
+			return _data[getIndex(i, j)];
 		}
 
 		// Variables
@@ -71,10 +83,17 @@ namespace Sudo
 	private:
 
 		// inline functions
-		int getIndex(int i, int j) const { return i * SUDO_SIDELENGTH + j; }
+		int getIndex(int i, int j) const 
+		{
+			if (i < 0 || i >= SUDO_SIDELENGTH || j < 0 || j >= SUDO_SIDELENGTH)
+			{
+				throw "Index not valid when access sudoku matrix";
+			}
+			return i * SUDO_SIDELENGTH + j;
+		}
 
 		// Variables
-		char data[SUDO_ELEMENTS_CNT];
+		char _data[SUDO_ELEMENTS_CNT];
 	};
 }
 

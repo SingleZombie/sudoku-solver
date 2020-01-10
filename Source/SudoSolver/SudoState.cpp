@@ -41,21 +41,24 @@ namespace Sudo
 		assert(num >= 1 && num <= 9); // number must in 1~9
 
 		int palaceId = SudoMatrix::getPalaceId(i, j);
+		int idInPalace = SudoMatrix::getIdInPalace(i, j);
 
 		bool valid = true;
 		_mat(i, j) = num;
 
 		_modificationLog[_step].push_back(_entryChoises[i][j]);
-		_modificationLog[_step].push_back(_numberChoises[num][palaceId]);
+		_modificationLog[_step].push_back(_numberChoises[num - 1][palaceId]);
 
+		// Ban all the choices in (i, j)
 		for (int deletedIndex = 0; deletedIndex < SudoMatrix::SUDO_SIDELENGTH; deletedIndex++)
 		{
 			_entryChoises[i][j].banChoice(deletedIndex + 1);
-			_numberChoises[num][palaceId].banChoice(deletedIndex);
+			_numberChoises[num - 1][palaceId].banChoice(deletedIndex);
+			_numberChoises[deletedIndex][palaceId].banChoice(idInPalace);
 		}
 		
-
-		for (int rowI = 0; rowI < SudoMatrix::SUDO_SIDELENGTH; rowI++)
+		// Update the choices of entries with same column
+		for (int rowI = 0; rowI < SudoMatrix::SUDO_SIDELENGTH && valid; rowI++)
 		{
 			if (_mat(rowI, j) == 0)
 			{
@@ -67,18 +70,29 @@ namespace Sudo
 					newLog.init(SudoChoice::Type::ENTRY, rowI, j);
 					newLog.addChoice(num);
 					_modificationLog[_step].push_back(newLog);
+
+					if (_entryChoises[rowI][j].empty())
+					{
+						valid = false;
+					}
 				}
-				if (_numberChoises[num][crtPalace].banChoice(crtIdInPalace))
+				if (_numberChoises[num - 1][crtPalace].banChoice(crtIdInPalace))
 				{
 					SudoChoice newLog;
-					newLog.init(SudoChoice::Type::NUMBER, num, crtPalace);
+					newLog.init(SudoChoice::Type::NUMBER, num - 1, crtPalace);
 					newLog.addChoice(crtIdInPalace);
 					_modificationLog[_step].push_back(newLog);
+
+					if (_numberChoises[num - 1][crtPalace].empty())
+					{
+						valid = false;
+					}
 				}
 			}
 		}
 
-		for (int colJ = 0; colJ < SudoMatrix::SUDO_SIDELENGTH; colJ++)
+		// Update the choices of entries with same row
+		for (int colJ = 0; colJ < SudoMatrix::SUDO_SIDELENGTH && valid; colJ++)
 		{
 			if (_mat(i, colJ) == 0)
 			{
@@ -90,19 +104,29 @@ namespace Sudo
 					newLog.init(SudoChoice::Type::ENTRY, i, colJ);
 					newLog.addChoice(num);
 					_modificationLog[_step].push_back(newLog);
+
+					if (_entryChoises[i][colJ].empty())
+					{
+						valid = false;
+					}
 				}
-				if (_numberChoises[num][crtPalace].banChoice(crtIdInPalace))
+				if (_numberChoises[num - 1][crtPalace].banChoice(crtIdInPalace))
 				{
 					SudoChoice newLog;
-					newLog.init(SudoChoice::Type::NUMBER, num, crtPalace);
+					newLog.init(SudoChoice::Type::NUMBER, num - 1, crtPalace);
 					newLog.addChoice(crtIdInPalace);
 					_modificationLog[_step].push_back(newLog);
+
+					if (_numberChoises[num - 1][crtPalace].empty())
+					{
+						valid = false;
+					}
 				}
 			}
 		}
 
-		
-		for (int palI = 0; palI < SudoMatrix::SUDO_SIDELENGTH; palI++)
+		// Update the choices of entries with same palace
+		for (int palI = 0; palI < SudoMatrix::SUDO_SIDELENGTH && valid; palI++)
 		{
 			if (_mat.getNumPalace(palaceId, palI) == 0)
 			{
@@ -118,12 +142,65 @@ namespace Sudo
 			}
 		}
 
-
+		_step++;
+		return valid;
 	}
 
 	SudoChoice SudoState::getMinForkOperation()
 	{
-		
+		SudoChoice minChoice;
+		bool find = false;
+		for (int i = 0; i < SudoMatrix::SUDO_SIDELENGTH; i++)
+		{
+			for (int j = 0; j < SudoMatrix::SUDO_SIDELENGTH; j++)
+			{
+				if (!_entryChoises[i][j].empty())
+				{
+					if (!find || _entryChoises[i][j] < minChoice)
+					{
+						minChoice = _entryChoises[i][j];
+						find = true;
+					}
+				}
+				if (!_numberChoises[i][j].empty())
+				{
+					if (!find || _numberChoises[i][j] < minChoice)
+					{
+						minChoice = _numberChoises[i][j];
+						find = true;
+					}
+				}
+			}
+		}
+		return minChoice;
+	}
+
+	void SudoState::recall()
+	{
+		assert(_step >= 0);
+		_step--;
+		for (auto& choiceSet : _modificationLog[_step])
+		{
+			int i = choiceSet.getPosIOrNumber();
+			int j = choiceSet.getPosJOrPalace();
+			if (choiceSet.getType() == SudoChoice::ENTRY)
+			{
+				// ENTRY
+				_entryChoises[i][j].recover(choiceSet);
+			}
+			else if (choiceSet.getType() == SudoChoice::NUMBER)
+			{
+				// NUMBER
+				_numberChoises[i][j].recover(choiceSet);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+		int posI = _modificationLog[_step][0].getPosIOrNumber();
+		int posJ = _modificationLog[_step][0].getPosJOrPalace();
+		_mat(posI, posJ) = 0;
 	}
 }
 

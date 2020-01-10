@@ -12,6 +12,8 @@
 #define MY_MAIN_H
 
 #include <iostream>
-
+#include <cstdio>
+#include "SudoMatrix.h"
+#include "SudoSolveAlgorithm.h"
 
 #endif

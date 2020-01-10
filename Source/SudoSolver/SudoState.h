@@ -44,6 +44,8 @@ namespace Sudo
 		// modification log)
 		void recall();
 
+		unsigned getStep() { return _step; }
+		SudoMatrix getMat() { return _mat; }
 	private:
 		// Functions
 
@@ -55,7 +57,7 @@ namespace Sudo
 		SudoChoice _entryChoises[SudoMatrix::SUDO_SIDELENGTH][SudoMatrix::SUDO_SIDELENGTH];
 
 		// Record the choices which were deleted in the previous step
-		// Specially, the first log is the entry which was filled in
+		// Specially, the first logs is the entry which was filled in
 		// the previous step.
 		std::vector<SudoChoice> _modificationLog[SudoMatrix::SUDO_ELEMENTS_CNT];
 	};

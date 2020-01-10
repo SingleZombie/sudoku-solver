@@ -29,10 +29,13 @@ namespace Sudo
 		// Constructors
 
 		SudoChoice();
+		SudoChoice(const SudoChoice& choice);
 		virtual ~SudoChoice();
 		void init(Type type, int posIorNumber, int posJOrPalace);
 
 		// Operator overload
+
+		// Compare the size of choices set
 		bool operator<(const SudoChoice& rhs) const { return _feasibleChoices.size() < rhs._feasibleChoices.size(); }
 		bool operator>(const SudoChoice& rhs) const { return _feasibleChoices.size() > rhs._feasibleChoices.size(); }
 
@@ -40,6 +43,8 @@ namespace Sudo
 		Type getType() const { return _type; }
 		int getPosIOrNumber() const { return _posIOrNumber; }
 		int getPosJOrPalace() const { return _posJOrPalace; }
+		bool empty() const { return _feasibleChoices.empty(); }
+		const std::set<int>& getChoices() const { return _feasibleChoices; }
 
 		// functions
 
@@ -47,6 +52,8 @@ namespace Sudo
 		bool banChoice(int choice);
 		// Add the choice, return false if it exists
 		bool addChoice(int choice);
+		// Recover the choices from a log
+		void recover(const SudoChoice& log);
 
 	private:
 		// Varibale

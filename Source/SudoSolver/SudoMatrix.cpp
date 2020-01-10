@@ -44,20 +44,31 @@ namespace Sudo
 	{
 		bool isValid = true;
 		int counter = 0;
-		int numberApperance[SUDO_SIDELENGTH];
+		int numberApperance[SUDO_SIDELENGTH] = {};
+
+		for (int i = 0; i < SUDO_SIDELENGTH; i++)
+		{
+			for (int j = 0; j < SUDO_SIDELENGTH; j++)
+			{
+				if (getNum(i, j) <= 0 || getNum(i, j) > 9)
+				{
+					isValid = false;
+				}
+			}
+		}
 
 		for (int i = 0; i < SUDO_SIDELENGTH && isValid; i++)
 		{
 			// for each rows
 			for (int j = 0; j < SUDO_SIDELENGTH && isValid; j++)
 			{
-				if (numberApperance[getNum(i, j)] != counter)
+				if (numberApperance[getNum(i, j) - 1] != counter)
 				{
 					isValid = false;
 				}
 				else
 				{
-					numberApperance[getNum(i, j)] = counter + 1;
+					numberApperance[getNum(i, j) - 1] = counter + 1;
 				}
 			}
 			counter++;
@@ -65,13 +76,13 @@ namespace Sudo
 			// for each cols
 			for (int j = 0; j < SUDO_SIDELENGTH && isValid; j++)
 			{
-				if (numberApperance[getNum(j, i)] != counter)
+				if (numberApperance[getNum(j, i) - 1] != counter)
 				{
 					isValid = false;
 				}
 				else
 				{
-					numberApperance[getNum(j, i)] = counter + 1;
+					numberApperance[getNum(j, i) - 1] = counter + 1;
 				}
 			}
 			counter++;
@@ -79,13 +90,13 @@ namespace Sudo
 			// for each palaces
 			for (int j = 0; j < SUDO_SIDELENGTH && isValid; j++)
 			{
-				if (numberApperance[getNumPalace(i, j)] != counter)
+				if (numberApperance[getNumPalace(i, j) - 1] != counter)
 				{
 					isValid = false;
 				}
 				else
 				{
-					numberApperance[getNumPalace(i, j)] = counter + 1;
+					numberApperance[getNumPalace(i, j) - 1] = counter + 1;
 				}
 			}
 			counter++;

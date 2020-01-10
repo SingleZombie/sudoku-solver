@@ -17,6 +17,15 @@ namespace Sudo
 		
 	}
 
+	SudoChoice::SudoChoice(const SudoChoice& choice) :
+		_type(choice._type),
+		_posIOrNumber(choice._posIOrNumber),
+		_posJOrPalace(choice._posJOrPalace),
+		_feasibleChoices(choice._feasibleChoices)
+	{
+
+	}
+
 
 	SudoChoice::~SudoChoice()
 	{
@@ -54,6 +63,18 @@ namespace Sudo
 		else
 		{
 			return false;
+		}
+	}
+
+	void SudoChoice::recover(const SudoChoice& log)
+	{
+		assert(_type == log._type);
+		assert(_posIOrNumber == log._posIOrNumber);
+		assert(_posJOrPalace == log._posJOrPalace);
+
+		for (auto num : log._feasibleChoices)
+		{
+			_feasibleChoices.insert(num);
 		}
 	}
 }

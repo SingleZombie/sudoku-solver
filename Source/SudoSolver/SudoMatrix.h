@@ -35,6 +35,7 @@ namespace Sudo
 
 		// inline functions
 
+		// The i-th row and j-th column
 		char getNum(int i, int j) const
 		{
 			return _data[getIndex(i, j)];
@@ -45,24 +46,37 @@ namespace Sudo
 			_data[getIndex(i, j)] = num;
 		}
 
+		// The j-th number in i-th palace
 		char getNumPalace(int i, int j) const
 		{
-			return _data[getIndex((i / 3) * 3 + (j / 3) , (i % 3) * 3 + (j % 3))];
+			return _data[getIndex(getIFromPalacePos(i, j) , getJFromPalacePos(i, j))];
 		}
 
 		void setNumPalace(int i, int j, char num)
 		{
-			_data[getIndex((i / 3) * 3 + (j / 3), (i % 3) * 3 + (j % 3))] = num;
+			_data[getIndex(getIFromPalacePos(i, j), getJFromPalacePos(i, j))] = num;
 		}
 
+		// Get the palace id if the position is (i, j)
 		static int getPalaceId(int i, int j)
 		{
 			return i / 3 * 3 + j / 3;
 		}
 
+		// Get the id in its palace if the position is (i, j)
 		static int getIdInPalace(int i, int j)
 		{
 			return i % 3 * 3 + j % 3;
+		}
+
+		static int getIFromPalacePos(int palace, int idInPalace)
+		{
+			return (palace / 3) * 3 + (idInPalace / 3);
+		}
+
+		static int getJFromPalacePos(int palace, int idInPalace)
+		{
+			return (palace % 3) * 3 + (idInPalace % 3);
 		}
 
 		char operator()(int i, int j) const

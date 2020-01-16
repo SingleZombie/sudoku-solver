@@ -3,7 +3,7 @@
 // Creator: ZhouYifan
 // Create Date: 2020/1/1 21:37
 // Description:
-// Provide the implement of class SudoState.
+// Provide the implementation of class SudoState.
 //
 // ******************************************************
 
@@ -46,6 +46,7 @@ namespace Sudo
 		bool valid = true;
 		_mat(i, j) = num;
 
+		_modificationLog[_step].clear();
 		_modificationLog[_step].push_back(_entryChoises[i][j]);
 		_modificationLog[_step].push_back(_numberChoises[num - 1][palaceId]);
 
@@ -54,7 +55,13 @@ namespace Sudo
 		{
 			_entryChoises[i][j].banChoice(deletedIndex + 1);
 			_numberChoises[num - 1][palaceId].banChoice(deletedIndex);
-			_numberChoises[deletedIndex][palaceId].banChoice(idInPalace);
+			if (_numberChoises[deletedIndex][palaceId].banChoice(idInPalace))
+			{
+				SudoChoice newLog;
+				newLog.init(SudoChoice::Type::NUMBER, deletedIndex, palaceId);
+				newLog.addChoice(idInPalace);
+				_modificationLog[_step].push_back(newLog);
+			}
 		}
 		
 		// Update the choices of entries with same column

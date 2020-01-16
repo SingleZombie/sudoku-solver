@@ -3,7 +3,7 @@
 // Creator: ZhouYifan
 // Create Date: 2020/1/1 20:54
 // Description:
-// Provide the implement of class SudoMatrix.
+// Provide the implementation of class SudoMatrix.
 //
 // ******************************************************
 
@@ -16,6 +16,11 @@ namespace Sudo
 	SudoMatrix::SudoMatrix()
 	{
 		std::memset(_data, 0, sizeof(_data));
+	}
+
+	SudoMatrix::SudoMatrix(const SudoMatrix& matrix)
+	{
+		memcpy(_data, matrix._data, sizeof(_data));
 	}
 
 	SudoMatrix::SudoMatrix(char* sudoTexts)

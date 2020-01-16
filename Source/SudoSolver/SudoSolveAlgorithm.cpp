@@ -3,7 +3,7 @@
 // Creator: ZhouYifan
 // Create Date: 2020/1/10 14:00
 // Description:
-// Provide the implement of class SudoSolveAlgorithm.
+// Provide the implementation of class SudoSolveAlgorithm.
 //
 // ******************************************************
 

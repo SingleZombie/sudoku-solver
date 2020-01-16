@@ -1,5 +1,5 @@
 //*******************************************************
-// SuduSolveAlgorithm.h
+// SudoSolveAlgorithm.h
 // Creator: ZhouYifan
 // Create Date: 2020/1/10 14:00
 // Description:

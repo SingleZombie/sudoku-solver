@@ -24,6 +24,7 @@ namespace Sudo
 		// Constructors
 
 		SudoMatrix();
+		SudoMatrix(const SudoMatrix& matrix);
 		SudoMatrix(char* sudoTexts);
 		SudoMatrix(int* sudoArrays);
 		virtual ~SudoMatrix();
@@ -87,6 +88,18 @@ namespace Sudo
 		char& operator()(int i, int j)
 		{
 			return _data[getIndex(i, j)];
+		}
+
+		bool operator==(const SudoMatrix& rhs) const
+		{
+			for (int i = 0; i < SUDO_ELEMENTS_CNT; i++)
+			{
+				if (_data[i] != rhs._data[i])
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		// Variables

@@ -3,7 +3,7 @@
 // Creator: ZhouYifan
 // Create Date: 2020/1/2 14:21
 // Description:
-// Provide the implement of class SudoChoice.
+// Provide the implementation of class SudoChoice.
 //
 // ******************************************************
 

@@ -114,17 +114,9 @@ namespace Sudo
 	{
 		for (int i = 0; i < SUDO_SIDELENGTH; i++)
 		{
-			if (i > 0)
-			{
-				std::putchar('\n');
-			}
 			for (int j = 0; j < SUDO_SIDELENGTH; j++)
 			{
-				if (j > 0)
-				{
-					std::putchar(' ');
-				}
-				std::printf("%c", getNum(i, j) + '0');
+				std::printf("%c%c", getNum(i, j) + '0', j == SUDO_SIDELENGTH - 1 ? '\n' : ' ');
 			}
 		}
 	}

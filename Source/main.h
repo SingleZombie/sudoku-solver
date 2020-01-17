@@ -13,9 +13,6 @@
 
 #include <iostream>
 #include <cstdio>
-#include "SudoMatrix.h"
-#include "SudoEndGameAlgorithm.h"
-#include "SudoSolveAlgorithm.h"
-#include "SudoGenerateAlgorithm.h"
+#include "CmdInteraction.h"
 
 #endif

@@ -28,6 +28,10 @@ namespace Sudo
 	void SudoGenerateAlgorithm::calTemplate(int count)
 	{
 		assert(count > 0 && count <= MAX_TEMPLATE_COUNT);
+		if (_templateCount >= count)
+		{
+			return;
+		}
 		_templateCount = count;
 
 		// The matrix that is used to generate the first and second rows 

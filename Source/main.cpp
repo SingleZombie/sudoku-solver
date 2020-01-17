@@ -8,8 +8,10 @@
 // ******************************************************
 
 #include "main.h"
+Sudo::CmdInteraction cmdInteraction;
 int main(int argc, char* argv[])
 {
+	cmdInteraction.inputCmd(argc, argv);
 	system("pause");
 	return 0;
 }

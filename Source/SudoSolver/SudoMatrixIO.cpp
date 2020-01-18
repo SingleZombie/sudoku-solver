@@ -47,7 +47,10 @@ namespace Sudo
 				{
 					char ch = matricesArray[mi](i, j) + '0';
 					fputc(ch, fp);
-					fputc(j == SudoMatrix::SUDO_SIDELENGTH - 1 ? '\n' : ' ', fp);
+					if (!(mi == count - 1 && i == 8 && j == 8))
+					{
+						fputc(j == SudoMatrix::SUDO_SIDELENGTH - 1 ? '\n' : ' ', fp);
+					}
 				}
 			}
 			successfulCount++;

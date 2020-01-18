@@ -25,7 +25,7 @@ namespace Sudo
 		if (argc > 3)
 		{
 			puts("ERROR: Too many arguments!");
-return false;
+			return false;
 		}
 		if (argc < 3)
 		{
@@ -72,7 +72,8 @@ return false;
 		}
 		if (!(cnt >= 1 && cnt <= 1000000))
 		{
-			puts("WARNING: The count is not in range[1, 1000000].");
+			puts("ERROR: The count is not in range[1, 1000000].");
+			return false;
 		}
 		SudoMatrix* matrices = new SudoMatrix[cnt];
 		if (_finalStateGenerator.generateFinalState(cnt, matrices, 4) != cnt)
@@ -132,10 +133,12 @@ return false;
 				return false;
 			}
 
+
 			if (readResult == EOF)
 			{
 				break;
 			}
+			fprintf(fpOut, "\n\n");
 		}
 		fclose(fpIn);
 		fclose(fpOut);

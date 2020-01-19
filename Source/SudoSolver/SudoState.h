@@ -29,10 +29,12 @@ namespace Sudo
 		SudoState();
 		virtual ~SudoState();
 
+		bool fill(const SudoMatrix& mat);
+
 		// Fill the blank entry of sudoku matrix. 
 		// Return false if no solution after the 
 		// operation.
-		bool setNumber(int i, int j, int num);
+		bool setNumber(int i, int j, int num, bool recordLog = true);
 
 		// Get feasible choices of a number in a palace 
 		// or an entry with minimun  which makes the dfs
@@ -54,7 +56,7 @@ namespace Sudo
 		unsigned _step;
 		SudoMatrix _mat;
 		SudoChoice _numberChoises[SudoMatrix::SUDO_SIDELENGTH][SudoMatrix::SUDO_SIDELENGTH];
-		SudoChoice _entryChoises[SudoMatrix::SUDO_SIDELENGTH][SudoMatrix::SUDO_SIDELENGTH];
+		SudoChoice _entryChoises[SudoMatrix::SUDO_SIDELENGTH][SudoMatrix::SUDO_SIDELENGTH];		
 
 		// Record the choices which were deleted in the previous step
 		// Specially, the first logs is the entry which was filled in

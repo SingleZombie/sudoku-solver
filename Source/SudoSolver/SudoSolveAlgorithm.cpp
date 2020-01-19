@@ -26,15 +26,17 @@ namespace Sudo
 
 	bool SudoSolveAlgorithm::solve(SudoMatrix& mat)
 	{
-		_sudoState = SudoState();
+		// Fill the matrix with known message
 		if (!fillState(mat))
 		{
 			return false;
 		}
+		// Use dfs to find the solution
 		if (!dfs())
 		{
 			return false;
 		}
+		// Get result
 		mat = _sudoState.getMat();
 		return true;
 	}
@@ -55,7 +57,7 @@ namespace Sudo
 			for (auto num : set)
 			{
 				bool yes = false;
-				if (_sudoState.setNumber(op.getPosIOrNumber(), op.getPosJOrPalace(), num))
+				if (_sudoState.setNumber(op.getPosIOrNumber(), op.getPosJOrPalace(), num + 1))
 				{
 					if (dfs())
 					{
@@ -103,20 +105,7 @@ namespace Sudo
 	}
 	bool SudoSolveAlgorithm::fillState(const SudoMatrix& mat)
 	{
-		for (int i = 0; i < SudoMatrix::SUDO_SIDELENGTH; i++)
-		{
-			for (int j = 0; j < SudoMatrix::SUDO_SIDELENGTH; j++)
-			{
-				if (mat(i, j) != 0)
-				{
-					if (!_sudoState.setNumber(i, j, mat(i, j)))
-					{
-						return false;
-					}
-				}
-			}
-		}
-		return true;
+		return _sudoState.fill(mat);
 	}
 }
 

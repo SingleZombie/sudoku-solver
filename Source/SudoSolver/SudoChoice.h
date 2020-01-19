@@ -13,6 +13,7 @@
 #define SUDO_CHOICE_H
 
 #include <set>
+#include <bitset>
 
 namespace Sudo
 {
@@ -32,19 +33,20 @@ namespace Sudo
 		SudoChoice(const SudoChoice& choice);
 		virtual ~SudoChoice();
 		void init(Type type, int posIorNumber, int posJOrPalace);
+		void setAllOne();
 
 		// Operator overload
 
 		// Compare the size of choices set
-		bool operator<(const SudoChoice& rhs) const { return _feasibleChoices.size() < rhs._feasibleChoices.size(); }
-		bool operator>(const SudoChoice& rhs) const { return _feasibleChoices.size() > rhs._feasibleChoices.size(); }
+		bool operator<(const SudoChoice& rhs) const { return _cnt < rhs._cnt; }
+		bool operator>(const SudoChoice& rhs) const { return _cnt > rhs._cnt; }
 
 		// Getters and setters
 		Type getType() const { return _type; }
 		int getPosIOrNumber() const { return _posIOrNumber; }
 		int getPosJOrPalace() const { return _posJOrPalace; }
-		bool empty() const { return _feasibleChoices.empty(); }
-		const std::set<int>& getChoices() const { return _feasibleChoices; }
+		bool empty() const { return _cnt == 0; }
+		std::set<int> getChoices() const;
 
 		// functions
 
@@ -60,7 +62,8 @@ namespace Sudo
 		Type _type;
 		int _posIOrNumber;
 		int _posJOrPalace;
-		std::set<int> _feasibleChoices;
+		int _cnt;
+		std::bitset<9> _feasibleChoices;
 	};
 }
 

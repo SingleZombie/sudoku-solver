@@ -21,7 +21,7 @@ namespace Sudo
 	{
 	public:
 		// To get the sudoku, you should generate the template first.
-		static void calTemplate(int count = MAX_TEMPLATE_COUNT);
+		static void calTemplate();
 		// Search valid diffrent initial sudoku passed to solve algorithm
 		static void dfs(SudoMatrix& crtMatrix, int pos, int cnt1, int cnt2, int cnt3);
 

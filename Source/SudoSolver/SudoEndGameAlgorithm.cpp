@@ -52,7 +52,8 @@ namespace Sudo
 				int posId = std::rand() % arr.size();
 				result.setNumPalace(i, arr[posId], 0);
 				arr.erase(arr.begin() + posId);
-				posArr.erase(posArr.begin() + (i * 9 + posId));
+				int offset = i * 9 + posId;
+				posArr.erase(posArr.begin() + offset);
 			}
 		}
 		for (; totalEmptyEntryCount > 0; totalEmptyEntryCount--)

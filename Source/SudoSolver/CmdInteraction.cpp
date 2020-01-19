@@ -92,12 +92,13 @@ namespace Sudo
 			return false;
 		}
 		delete[] matrices;
-		fclose(fp);
+		if (fp)
+			fclose(fp);
 		return true;
 	}
 	bool CmdInteraction::solveSudoku(char* arg[])
 	{
-		char fileName[256];
+		char fileName[256] = {};
 		if (sscanf_s(arg[0], "%s", fileName, 256) != 1)
 		{
 			puts("ERROR: Solve sudoku arguments read error.");
@@ -105,14 +106,14 @@ namespace Sudo
 		}
 		SudoMatrix tmpMatrix;
 		FILE* fpIn;
-		if (fopen_s(&fpIn, fileName, "r") != 0)
+		if (fopen_s(&fpIn, fileName, "r") != 0 || fpIn == NULL)
 		{
 			printf("ERROR: Cannot read %s\n", fileName);
 			return false;
 		}
 
-		FILE* fpOut;
-		if (fopen_s(&fpOut, "sudoku.txt", "w") != 0)
+		FILE* fpOut = NULL;
+		if (fopen_s(&fpOut, "sudoku.txt", "w") != 0 || fpOut == NULL)
 		{
 			puts("ERROR: Cannot write to sudoku.txt.");
 			return false;
@@ -133,15 +134,18 @@ namespace Sudo
 				return false;
 			}
 
-
 			if (readResult == EOF)
 			{
 				break;
 			}
-			fprintf(fpOut, "\n\n");
+
+			fputc('\n', fpOut);
+			fputc('\n', fpOut);
 		}
-		fclose(fpIn);
-		fclose(fpOut);
+		if (fpIn)
+			fclose(fpIn);
+		if (fpOut)
+			fclose(fpOut);
 		return true;
 	}
 }

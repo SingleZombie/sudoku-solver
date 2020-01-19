@@ -26,7 +26,14 @@ namespace SudokuUnitTest
 			{
 				matrixArr[i] = _eG.generateEndGame(matrixArr[i], difficulty, seed);
 				Assert::IsFalse(matrixArr[i].valid(), L"Validation function error");
-				_solver.solve(matrixArr[i]);
+				Assert::IsTrue(_solver.solve(matrixArr[i]), L"Solver can't solve the martix");
+				for (int ii = 0; ii < 9; ii++)
+				{
+					for (int jj = 0; jj < 9; jj++)
+					{
+						Assert::IsFalse(matrixArr[i](ii, jj) == 0, L"Find zero in solution");
+					}
+				}
 				Assert::IsTrue(matrixArr[i].valid(), L"Solve failed");
 			}
 			delete[] matrixArr;

@@ -23,15 +23,15 @@ namespace Sudo
 		memcpy(_data, matrix._data, sizeof(_data));
 	}
 
-	SudoMatrix::SudoMatrix(char* sudoTexts)
+	SudoMatrix::SudoMatrix(char* sudoTexts) : _data()
 	{
 		for (int i = 0, index = 0; index < SUDO_ELEMENTS_CNT; index++, i += 2)
 		{
-			_data[index] = sudoTexts[i];
+			_data[index] = sudoTexts[i] - '0';
 		}
 	}
 
-	SudoMatrix::SudoMatrix(int* sudoArrays)
+	SudoMatrix::SudoMatrix(int* sudoArrays) : _data()
 	{
 		for (int i = 0; i < SUDO_ELEMENTS_CNT; i++)
 		{

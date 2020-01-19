@@ -9,6 +9,7 @@
 
 #include "SudoGenerateAlgorithm.h"
 #include "SudoSolveAlgorithm.h"
+#include "SudoMatrixIO.h"
 namespace Sudo
 {
 	const int SudoGenerateAlgorithm::MAX_TEMPLATE_COUNT = 56;
@@ -25,14 +26,15 @@ namespace Sudo
 
 	}
 
-	void SudoGenerateAlgorithm::calTemplate(int count)
+	void SudoGenerateAlgorithm::calTemplate()
 	{
-		assert(count > 0 && count <= MAX_TEMPLATE_COUNT);
-		if (_templateCount >= count)
+		if (_templateCount != 0)
 		{
 			return;
 		}
-		_templateCount = count;
+		_templateCount = MAX_TEMPLATE_COUNT;
+
+		/* Template Calculation Code
 
 		// The matrix that is used to generate the first and second rows 
 		SudoMatrix originMatrix;
@@ -43,7 +45,20 @@ namespace Sudo
 			originMatrix(0, i) = i + 1;
 		}
 
-		dfs(originMatrix, 0, 0, 0, 0);
+		dfs(originMatrix, 0, 0, 0, 0);*/
+
+
+		FILE* fp;
+		fopen_s(&fp, "templates.txt", "r");
+		for (int i = 0; i < _templateCount; i++)
+		{
+			SudoMatrix newMatrix;
+			SudoMatrixIO::readMatrix(fp, newMatrix);
+			_templateSudokus.push_back(newMatrix);
+		}
+		
+		if (fp)
+			fclose(fp);
 	}
 
 	void SudoGenerateAlgorithm::dfs(SudoMatrix& crtMatrix, int pos, int cnt1, int cnt2, int cnt3)
@@ -114,7 +129,8 @@ namespace Sudo
 		{
 			for (int j = 0; j < 9; j++)
 			{
-				result(i, j) = permutation[result(i, j) - 1];
+				int newIndex = result(i, j) - 1;
+				result(i, j) = permutation[newIndex];
 			}
 		}
 		return result;
